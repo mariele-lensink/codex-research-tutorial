@@ -1,0 +1,48 @@
+{
+  "data_source": "synthetic",
+  "training_seed": 2026,
+  "samples_per_tissue_exposure_cell_per_split": 20,
+  "exposure_levels": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "opportunities_per_sample": 10000,
+  "numpy_version": "2.0.2",
+  "scipy_version": "1.13.1",
+  "matplotlib_version": "3.9.4",
+  "generator_parameters": {
+    "baseline": 0.002,
+    "tissue_effect": 0.001,
+    "exposure_effect": 0.003
+  },
+  "heldout_seed": 2027,
+  "models": {
+    "tissue_only": {
+      "coefficients_per_opportunity": {
+        "baseline": 0.003537999980134554,
+        "skin_effect": 0.0009760000431268458
+      },
+      "heldout_mean_poisson_deviance": 3.699234649170151
+    },
+    "exposure_only": {
+      "coefficients_per_opportunity": {
+        "baseline": 0.002481098286325164,
+        "exposure_effect": 0.0030898034355256727
+      },
+      "heldout_mean_poisson_deviance": 1.7797219779768039
+    },
+    "combined": {
+      "coefficients_per_opportunity": {
+        "baseline": 0.0020058036824735868,
+        "skin_effect": 0.0009598484041781267,
+        "exposure_effect": 0.003080544229444782
+      },
+      "heldout_mean_poisson_deviance": 1.1195189842658606
+    }
+  },
+  "fitting": "Training-only Poisson likelihood; nonnegative additive effects",
+  "scoring": "Mean held-out Poisson deviance per sample; lower is better"
+}

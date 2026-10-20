@@ -1,157 +1,115 @@
-# Self-guided exercise: a research team of agents
+# Try a research team of agents
 
-Follow these steps in one main Codex conversation after completing the setup in
-[README.md](README.md). Paste one prompt at a time, inspect the response and
-changed files, and decide when to continue. You make the scientific decisions;
-the main agent coordinates the two specialists.
+Complete the setup in [README.md](README.md), then work through these prompts
+in one Codex chat. You can use your own words. The project instructions already
+explain the agents' jobs; you don't need to repeat those rules in every message.
 
-The aim is to practice clear delegation, evidence-based records, and coordinated
-checkpoints. This small model could be handled by one agent; separate roles
-make handoffs visible but add coordination work and do not guarantee correctness.
+You discuss the science with the main agent. It delegates scientific records to
+`lab_notebook` and repository reviews to `git_steward`. Watch for those handoffs
+and inspect their work as you go. Agents act during the conversation, not while
+the workspace is closed.
 
-## 1. Orient the team
+## 1. Get oriented
 
-Paste:
+> Read AGENTS.md and the notebook. What are we studying? Don't run anything
+> or reveal earlier results yet. Use .venv for Python.
 
-> Read AGENTS.md and the latest lab_notebook.txt entries. Briefly explain our
-> research question and current model without running it or revealing previous
-> test outcomes. Review unresolved items in Follow up. Use lab_notebook for
-> concise scientific records and git_steward for repository checkpoints. Keep
-> our discussion here. Use the repository's .venv Python interpreter. Confirm
-> whether you can invoke the two project agent profiles; disclose any fallback.
-> Have git_steward inspect the repository without changing it. Do not commit or
-> publish anything.
+Look for a short explanation of the model and any open questions. The agent
+should also arrange a Git review and disclose if it cannot use the project
+agent profiles. Open `.codex/agents/` to see their instructions.
 
-Check: the response explains the question and roles, acknowledges any historical
-records, and reports repository status. A ZIP download may have no Git repository;
-that is expected. Open `AGENTS.md` and both `.codex/agents/*.toml` files yourself.
-Notice each role's editing boundaries and requirement to use verified evidence.
-No introduction or file inspection needs a new scientific notebook entry.
+If subagents are unavailable, use the setup help linked in the README. Having
+one agent perform every role won't give you practice with delegation.
 
-If profile selection is unavailable but subagents work, ask the main agent to
-pass each role's instructions to a bounded delegate. If subagents are unavailable,
-resolve client setup using the official documentation linked from the README
-before continuing with the multi-agent exercise.
+## 2. Look at the observations
 
-## 2. Inspect synthetic observations
+> Run the observation stage and show me the figure. How do mutation rates
+> vary with tissue and exposure?
 
-Paste:
+The command is `python ToyModel1_recover_underlying_mrates.py --stage observe`.
+Open `figures/inference_observations.png`. Each dot is a synthetic training
+sample's mutation count divided by its callable opportunities. Both tissues
+have the same exposure levels. Look for trends within tissues and differences
+at matching exposure levels. Scatter reflects Poisson sampling variability.
+Check that `lab_notebook` recorded the actual run.
 
-> Run python ToyModel1_recover_underlying_mrates.py --stage observe with .venv
-> and show figures/observed_rates.png. Compare the observed tissue rates with
-> the model predictions. Explain the sampling distributions without assuming a
-> cause. Have lab_notebook record only the actual command, essential parameters,
-> results, and artifact paths. Keep the entry concise.
+## 3. Make a prediction
 
-Check: inspect the PNG and new notebook entry. Orange diamonds are synthetic
-observations, blue boxes are 500 simulated experiments per tissue. Each experiment
-uses 100 bins of 1,000 callable opportunities. Callable opportunities are the
-measurement denominator; they are distinct from environmental mutagen exposure.
-The central 95% of simulations describes variability across experiments, not
-uncertainty in the simulated mean. Both datasets use the same assumed mechanism,
-with separate random seeds.
+> Could tissue, exposure, or both explain the pattern? Help me plan a fair
+> comparison and record our prediction before running it.
 
-Ask yourself: does a tissue difference alone distinguish an intrinsic biological
-difference from an environmental explanation?
+Discuss the tissue-only, exposure-only, and combined models. Each estimates
+its own rates from training data; it isn't given the generator's coefficients.
+The comparison uses separate held-out samples and mean Poisson deviance (lower
+is better). Predict which explanation will generalize best and why. Read the
+notebook plan before continuing. Avoid inspecting held-out scores at this step.
 
-## 3. Record a hypothesis before testing
+## 4. Compare explanations
 
-Paste, or substitute your own hypothesis:
+> Fit the three models and compare their held-out predictions. Show the
+> figure and run the unit tests. What does the evidence support?
 
-> My hypothesis is that greater environmental mutagen exposure, motivated by
-> sunlight/UV, explains the higher skin mutation rate. Inspect the mechanism
-> and propose an intervention that equalizes exposure while holding intrinsic
-> biology and callable opportunities fixed. State the prediction and have
-> lab_notebook record the hypothesis and a short test plan before running
-> anything. Do not run the test yet.
+The commands are:
 
-Check: read the hypothesis and prediction in `lab_notebook.txt` before continuing.
-The main agent should explain which assumptions the script imposes. This is an
-exercise in testing an assumed mechanism inside a synthetic world; the notebook
-must distinguish your prediction from an observed result.
+```sh
+python ToyModel1_recover_underlying_mrates.py --stage test
+python -m unittest discover -s tests -v
+```
 
-## 4. Test the intervention
+Inspect `figures/inference_comparison.png`. Which omitted effect harms
+prediction? How large are the score differences? Model coefficients are
+estimates, and a single split does not establish their uncertainty. The fitted
+models restrict effects to be nonnegative and omit interactions. These are
+synthetic observational comparisons, not evidence of a biological cause.
+Check that the notebook now contains actual results.
 
-Paste:
+## 5. Check the record and choose what comes next
 
-> Run python ToyModel1_recover_underlying_mrates.py --stage test with .venv and
-> show figures/exposure_test.png. Compare the mean skin-minus-liver difference
-> in the original and equalized environments across 500 simulations. Run
-> python -m unittest discover -s tests -v in the same environment. Explain
-> whether our prediction holds within this model and what remains unproven.
-> Have lab_notebook append actual results, validation, commands, and artifact
-> paths to the planned experiment without repeating the whole history.
+> Show me the notebook entry. Does it match what we actually ran and found?
 
-Check: use the values actually returned by your run. The equalized-exposure panel
-contains simulations only; there are no observed intervention measurements.
-Software tests check the implementation, not biological validity. Ask the main
-agent to explain why agreement between synthetic measurements and simulations
-cannot independently validate the mechanism that generated both.
+Look for the hypothesis, prediction, commands, results, and artifact paths.
+Compare the numbers with `figures/inference_comparison.json`. Ask for a correction
+if needed; a record check doesn't require another experiment.
 
-## 5. Audit the handoff and preserve an open question
+Then discuss your concerns:
 
-Paste:
+> What concerns should we investigate next? Help me turn them into a few
+> research questions. Let me choose before adding them to Follow up.
 
-> Show the concise hypothesis, test, and result entries lab_notebook just wrote.
-> Check them against the actual commands and output. Confirm reproduction
-> commands and artifact paths are present, and predictions are distinguishable
-> from results. Delegate a small correction if needed; do not add a duplicate
-> summary or rerun the experiment.
+For example, ask whether the ranking changes across seeds, whether effects
+could be negative, or what happens when tissue and exposure no longer overlap.
+These are ideas to discuss, not tasks you must adopt.
 
-Check: compare the entry with `figures/exposure_test.json`. The notebook should
-preserve essential evidence without copying the whole JSON or chat transcript.
+After choosing, you can simply say:
 
-Choose a question you actually want to revisit, then replace the bracketed text:
+> Save those questions for next time. Don't run them yet.
 
-> Have lab_notebook add this to Follow up, with today's date: [my deferred
-> test, concern, or question]. Keep it open for the next session; do not run it now.
+Check the notebook's Follow up section. It should preserve your agreed questions
+with enough context to resume, alongside any existing unresolved items.
 
-For example, you could ask how changing the number of callable opportunities
-would affect sampling variability. Add it only if you intend to revisit it.
+## 6. Review your changes
 
-## 6. Review a checkpoint
+Git is optional; skip this step if you're only practicing the science.
 
-Git is optional. If you downloaded a ZIP, follow the initialization guidance in
-[README.md](README.md), or skip to step 8.
+> Have git_steward review our changes and suggest a checkpoint.
+> Don't commit or push yet.
 
-Paste:
+Read the proposed file list and commit message. The notebook should be complete
+before the steward prepares the checkpoint. Existing files and unrelated edits
+should be distinguished from this session's changes.
 
-> Wait for notebook edits to finish. Have git_steward review the current code,
-> notebook, figures, data, validation evidence, branch, and remotes. Update
-> GIT_CHECKPOINT.md with an explicit proposed file list and commit message for
-> my current work. Distinguish existing baseline files from new changes and
-> preserve unrelated edits. Do not commit or push yet.
+For optional saving and publication, follow [GIT_CHECKPOINT.md](GIT_CHECKPOINT.md).
+A commit saves locally; a push publishes to a remote. Publish to your own fork
+or repository, and review the destination first.
 
-Check: inspect the proposed scope and diff yourself. The steward should identify
-which files actually changed, rather than assume that every listed output is new.
-The notebook agent finishes before the steward prepares repository mutations.
-See [GIT_CHECKPOINT.md](GIT_CHECKPOINT.md) for optional commit and publication prompts.
-A local commit is sufficient to complete this exercise; publishing is optional.
+## 7. Pick up next time
 
-## 7. Optional: save and publish your work
+Start a fresh conversation in this workspace:
 
-Follow the checkpoint guide one prompt at a time. Use your own fork or repository
-if you publish. Review the destination and file list before authorizing a push.
-Do not reuse publication authorization from the repository's historical records.
+> Read the notebook. Where did we leave off, and which questions did we save
+> for next time? Don't run anything yet.
 
-Check: a commit, a push, and a pull request are separate operations. Ask for
-verified evidence of each operation you actually requested.
-
-## 8. Resume and explore independently
-
-Start a new conversation in this workspace and paste:
-
-> Read AGENTS.md and the latest notebook entries. Summarize the current research
-> state and unresolved Follow up items. Have git_steward inspect the repository.
-> Do not run experiments yet. Help me select one next question and state a
-> prediction before delegating its notebook record.
-
-You have completed the core exercise when you can locate a prediction written
-before its test, reproduce a run from its record, explain the limits of the
-synthetic evidence, and identify which work each agent performed.
-
-For further practice, choose one change: vary sampling effort, compare random
-seeds, or introduce a tissue-specific baseline to challenge the current model.
-Discuss the scientific question first, record the hypothesis and plan, then
-change and test the code. Keep each experiment's artifacts distinguishable and
-ask the steward to propose a checkpoint when the notebook is complete.
+Choose a question, discuss a prediction, and repeat the plan–test–record cycle.
+You have practiced the workflow when you can find a prediction recorded before
+its test, reproduce the experiment, explain its limitations, and identify what
+each agent contributed.

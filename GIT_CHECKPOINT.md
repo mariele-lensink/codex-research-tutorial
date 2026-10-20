@@ -19,14 +19,12 @@ Potential experiment artifacts, to include only if present and relevant:
 
 ```text
 lab_notebook.txt
-figures/observed_rates.png
-figures/observed_rates.csv
-figures/observed_rates.json
-figures/observed_rates_observations.csv
-figures/exposure_test.png
-figures/exposure_test.csv
-figures/exposure_test.json
-figures/exposure_test_observations.csv
+figures/inference_training.csv
+figures/inference_observations.png
+figures/inference_observations.json
+figures/inference_heldout.csv
+figures/inference_comparison.png
+figures/inference_comparison.json
 ```
 
 Include code, tests, or documentation only when they belong to your reviewed
@@ -48,7 +46,7 @@ Not prepared for this learner's session. Ask the steward to fill in:
 
 After reviewing the proposal, paste:
 
-> Have git_steward create research/exposure-demo if absent, inspecting an
+> Have git_steward create research/tissue-exposure-inference if absent, inspecting an
 > existing branch before using it. Stage only the reviewed explicit paths,
 > inspect the staged diff, and commit with the reviewed message. Preserve
 > unrelated work. Report the resulting hash and status. Do not push.

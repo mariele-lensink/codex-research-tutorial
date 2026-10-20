@@ -1,6 +1,11 @@
 # Research collaboration
 
 Use ToyModel1_recover_underlying_mrates.py as the research starting point.
+The active exercise compares tissue-only, exposure-only, and combined additive
+Poisson rate models on held-out synthetic samples with overlapping exposures.
+Earlier equalization experiments in the notebook are historical. Use new
+inference_* outputs; never present old results as findings from this exercise.
+Use the repository .venv Python interpreter for experiments and validation.
 Keep scientific discussion, code changes, and interpretation in the main chat.
 Use the two roles in .codex/agents/ proactively throughout active work.
 This repository is a standalone, self-guided tutorial. README.md is the setup
