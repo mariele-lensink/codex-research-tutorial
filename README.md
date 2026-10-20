@@ -4,7 +4,6 @@ A self-guided tutorial for using a main research agent with two specialist
 agents: a scientific notebook keeper and a Git steward. You will explore a
 small mutation-rate model, record a prediction before testing it, inspect the
 evidence, and optionally save and publish your own research checkpoint.
-No facilitator or previous conversation is required.
 
 ## Start here
 
