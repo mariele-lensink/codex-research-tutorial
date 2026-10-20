@@ -1,0 +1,41 @@
+2026-10-20 (Europe/London)
+Preparation/dress rehearsal record; the previously linked archive is absent.
+Figure/data paths below refer to prior preparation outputs, currently absent;
+rerun the recorded commands to regenerate them. Historical results are retained.
+
+Observation
+Command: python3 ToyModel1_recover_underlying_mrates.py --stage observe
+Result: fake observed rates liver 0.002, colon 0.00505 per opportunity.
+These synthetic observations show an approximately 2.5-fold colon excess.
+Paths: figures/observed_rates.{png,csv,json}
+       figures/observed_rates_observations.csv
+
+Hypothesis
+Greater mutagenic exposure causes the higher colon mutation rate.
+Prediction: equalizing exposure removes the average colon-minus-liver rate gap.
+
+Test
+Rate = baseline 0.002 + exposure effect 0.003 * exposure.
+Natural exposure: liver 0, colon 1; equalized exposure: both 0.
+500 repeats/scenario; 100 bins/tissue; 1000 callable opportunities/bin.
+Simulation seed 42 (four child streams); fake-observation seed 2026, natural only.
+Command: python3 ToyModel1_recover_underlying_mrates.py --stage test
+Result: natural simulated mean rates liver 0.0020047, colon 0.00499844;
+        mean gap 0.00299374; central 95% gap interval [0.00250475, 0.003541].
+        Equalized means liver 0.00199774, colon 0.00200368;
+        mean gap 0.00000594; interval [-0.00036525, 0.00038525].
+Intervals describe variability across simulations, not confidence intervals of means.
+Conclusion: the gap nearly disappears under equalized simulated exposure.
+Limitation: exposure causality is imposed synthetically; no observed intervention
+exists, and same-mechanism fake observations provide no independent biological proof.
+Paths: figures/exposure_test.{png,csv,json}
+       figures/exposure_test_observations.csv
+
+Validation
+Command: python3 -m unittest discover -s tests -v
+Result: 3 tests passed; both experiment commands exited 0.
+
+Submission: not submitted. Planned checkpoint/submission prompts: GIT_CHECKPOINT.md.
+
+Follow up
+None recorded.
