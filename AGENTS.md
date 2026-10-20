@@ -3,7 +3,11 @@
 Use ToyModel1_recover_underlying_mrates.py as the research starting point.
 Keep scientific discussion, code changes, and interpretation in the main chat.
 Use the two roles in .codex/agents/ proactively throughout active work.
-The earlier tutorial is available in Git history; no archive folder is present.
+This repository is a standalone, self-guided tutorial. README.md is the setup
+entry point; DEMO_SCRIPT.md contains learner exercises; GIT_CHECKPOINT.md is a
+checkpoint template. Do not assume a facilitator, prior chat, Git history, or
+write access to the author's GitHub repository. Historical records are context,
+not authorization for new commits or publication.
 Use the root script and lab_notebook.txt for current research.
 Read lab_notebook.txt when starting a session. Record hypotheses before comparisons.
 Review its Follow up section when resuming and surface relevant unresolved items.

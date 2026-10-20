@@ -1,71 +1,24 @@
-# Setup checkpoint and end-of-demo handoff
+# Your research checkpoint
 
-Reviewed 2026-10-20 (Europe/London). Setup parent: main at c84e528.
-Configured fetch/push remote: origin,
-https://github.com/mariele-lensink/codex-research-tutorial.git.
-Remote reachability and authentication have not been checked.
+Use this optional guide after the exercise in [DEMO_SCRIPT.md](DEMO_SCRIPT.md).
+This file is a template for your steward's current review, not evidence that a
+commit, push, test, or submission has happened. Existing notebook entries and
+Git history do not authorize new operations.
 
-The researcher authorized a local setup commit on the current branch:
-`Prepare research demo and specialist agent workflow`.
-No push is requested now. Review, commit, and push new results at the end of
-the demo, after code and notebook updates finish.
+## Review before saving
 
-## Setup scope
+Ask in the main chat:
 
-Include reusable science code, tests, dependencies, agent policies, presenter
-guide, and concise historical preparation record. figures/ is empty and archive/
-is absent; neither generated results nor an archive backup is included.
-The previous tutorial files are removed from the working setup and remain in
-Git history at c84e528. The missing pre-condensation notebook backup is not
-claimed to be preserved. Notebook results are historical preparation results;
-the listed output paths can be regenerated during the live demo.
+> Wait for notebook edits to finish. Have git_steward inspect status, diffs,
+> branch, tracking, remotes, generated artifacts, and available validation
+> evidence. Replace the review section below with the actual proposed file
+> list, commit message, and any unresolved issues. Do not commit or push.
+> Preserve unrelated work. If no Git repository exists, explain local setup.
 
-Explicit setup paths:
+Potential experiment artifacts, to include only if present and relevant:
 
 ```text
-.codex/agents/lab_notebook.toml
-.codex/agents/git_steward.toml
-.gitignore
-AGENTS.md
-README.md
-requirements.txt
-ToyModel1_recover_underlying_mrates.py
-tests/test_exposure.py
 lab_notebook.txt
-DEMO_SCRIPT.md
-GIT_CHECKPOINT.md
-```
-
-Explicit tracked deletions:
-
-```text
-.codex/agents/repo_steward.toml
-src/recover_rates.py
-tests/test_recover_rates.py
-research/overview.md
-research/lab-notebook/2026-10-19-setup.md
-research/lab-notebook/2026-10-19-poisson-model.md
-research/lab-notebook/TEMPLATE.md
-results/README.md
-```
-
-Current-tree validation: `python3 -m unittest discover -s tests -v` passed
-3 tests (0.027s). No figure regeneration occurred. Whitespace and staged-diff
-review precede the commit. The parent navigation AGENTS.md is outside this repo.
-
-## End-of-demo checkpoint
-
-Reproduction commands:
-
-```sh
-python3 ToyModel1_recover_underlying_mrates.py --stage observe
-python3 ToyModel1_recover_underlying_mrates.py --stage test
-python3 -m unittest discover -s tests -v
-```
-
-Expected generated paths, to inspect for actual existence and content then:
-
-```text
 figures/observed_rates.png
 figures/observed_rates.csv
 figures/observed_rates.json
@@ -76,22 +29,56 @@ figures/exposure_test.json
 figures/exposure_test_observations.csv
 ```
 
-Blue distributions are simulations. Orange fake measurements exist only in the
-original environments; the equalized panel contains predictions alone. Both
-come from the assumed synthetic mechanism and establish no biological causality.
-Record actual rerun outputs rather than treating preparation results as new.
+Include code, tests, or documentation only when they belong to your reviewed
+change. Record validation that was actually performed; do not copy historical
+pass counts. A ZIP-based repository's first commit may also need the source and
+agent definitions. The steward should propose that scope explicitly.
 
-Copyable end-of-demo prompt:
+## Current review
 
-> Have git_steward review the completed demo against the setup commit, wait for
-> notebook edits, and inspect the code, scientific record, eight generated
-> figure/data files, and validation. Create research/exposure-demo if absent;
-> inspect an existing branch before using it. Stage only explicit reviewed
-> changed paths, inspect the staged diff, and commit with message "Record tissue
-> exposure demo results". Verify origin is
-> https://github.com/mariele-lensink/codex-research-tutorial.git, then push the
-> research branch and set its upstream. Do not force-push. Verify the remote
-> commit and report its hash, branch URL, and final local status. Preserve
-> unrelated work and report authentication or divergence problems accurately.
+Not prepared for this learner's session. Ask the steward to fill in:
 
-No remote push or PR has been performed as part of the setup checkpoint.
+- Current branch, baseline, and status.
+- Explicit changed paths to stage and any unrelated work to exclude.
+- Proposed commit message.
+- Actual validation evidence, or checks still needed.
+- Intended publication remote, if publication is requested.
+
+## Optional local commit
+
+After reviewing the proposal, paste:
+
+> Have git_steward create research/exposure-demo if absent, inspecting an
+> existing branch before using it. Stage only the reviewed explicit paths,
+> inspect the staged diff, and commit with the reviewed message. Preserve
+> unrelated work. Report the resulting hash and status. Do not push.
+
+A commit requires a configured Git identity. If Git reports that one is missing,
+configure your own identity locally before retrying; do not use the author's.
+
+## Optional GitHub publication
+
+Cloning the source repository normally points `origin` to the author's repository.
+You need your own fork or another repository you can write to. Have the steward
+inspect the actual destination; do not assume push permission. A ZIP download has
+no configured remote. Set a destination only after choosing your own repository.
+
+Replace the bracketed URL before pasting:
+
+> Have git_steward verify that the publication destination is [my fork or
+> repository URL]. If remote configuration needs changing, show the proposed
+> change before applying it. Once the destination is verified, push the reviewed
+> research branch, set its upstream, and verify the remote commit. Do not
+> force-push. Report the branch URL and local status. After successful
+> publication, have lab_notebook record only the actual submission command,
+> commit hash, and URL. Explain whether that new notebook entry remains uncommitted.
+
+Optional follow-up:
+
+> Have git_steward open a draft pull request from my published branch against
+> my chosen base repository and branch. Include the research question, actual
+> results, limitations, and reproduction commands. Verify and report the URL.
+
+Keep failed or planned operations distinguishable from completed submissions.
+If authentication or permissions block publication, retain the local checkpoint
+and report the blocker accurately.

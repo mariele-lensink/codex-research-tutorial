@@ -1,171 +1,157 @@
-# Presenter script: investigating tissue environments
+# Self-guided exercise: a research team of agents
 
-## Introduction: why use multiple agents?
+Follow these steps in one main Codex conversation after completing the setup in
+[README.md](README.md). Paste one prompt at a time, inspect the response and
+changed files, and decide when to continue. You make the scientific decisions;
+the main agent coordinates the two specialists.
 
-Say: “Research involves more than writing an analysis. We need to remember why
-we ran a test, what we found, which questions remain open, and which version of
-the code produced the result. Those responsibilities compete with the science
-for our attention.
+The aim is to practice clear delegation, evidence-based records, and coordinated
+checkpoints. This small model could be handled by one agent; separate roles
+make handoffs visible but add coordination work and do not guarantee correctness.
 
-“In this demo, I keep the research discussion in one main chat and delegate two
-recurring responsibilities. The notebook agent maintains a concise scientific
-record and a Follow up list. The Git steward helps identify useful checkpoints
-and organizes saving the code, figures, and reasoning together.
+## 1. Orient the team
 
-“The goal is less cleanup at the end of a session and less reconstruction when
-I return. I invoke these agents at meaningful checkpoints, rather than after
-every message. They work when given a task; they aren't continuously watching
-the project.
+Paste:
 
-“This small experiment could be handled by one agent. Separate roles give each
-responsibility dedicated attention, but also require clear handoffs. They don't
-guarantee correctness, and I still make the scientific decisions and review
-what gets published. For a larger project, I might also ask an independent
-reviewer to challenge an important result, or delegate a separate data check
-while I develop the analysis.
-
-“Let's see whether this arrangement helps us move from a question to a result
-that is documented, reproducible, and ready to save.”
-
-Presenter setup: this is research inside a synthetic toy world, not a claim
-about real tissues. Within that world, call the orange points our observations
-and the blue boxes model predictions. The source contains the mechanism we
-will inspect; we are testing an explanation, not independently discovering an
-unknown biological cause. Existing preparation runs remain labelled as such.
-
-## 1. Meet the research team
-
-Say: “Our project asks why skin accumulates more mutations than liver.
-I'll work with the main agent on the science. A notebook agent will maintain
-our experimental record, and a Git steward will organize research checkpoints.
-I give instructions here; the main agent sends each specialist the relevant
-context and evidence, then brings their work back to this conversation.”
-
-Enter:
 > Read AGENTS.md and the latest lab_notebook.txt entries. Briefly explain our
 > research question and current model without running it or revealing previous
-> test outcomes. Review unresolved items in the notebook's Follow up section.
-> Use lab_notebook for concise scientific records and
-> git_steward for repository checkpoints. Keep our discussion here.
+> test outcomes. Review unresolved items in Follow up. Use lab_notebook for
+> concise scientific records and git_steward for repository checkpoints. Keep
+> our discussion here. Use the repository's .venv Python interpreter. Confirm
+> whether you can invoke the two project agent profiles; disclose any fallback.
+> Have git_steward inspect the repository without changing it. Do not commit or
+> publish anything.
 
-Show: the Python model and the two active agent definitions in `.codex/agents/`.
-Explain that these agents act when invoked, not as continuous background watchers.
+Check: the response explains the question and roles, acknowledges any historical
+records, and reports repository status. A ZIP download may have no Git repository;
+that is expected. Open `AGENTS.md` and both `.codex/agents/*.toml` files yourself.
+Notice each role's editing boundaries and requirement to use verified evidence.
+No introduction or file inspection needs a new scientific notebook entry.
 
-## 2. Inspect our observations
+If profile selection is unavailable but subagents work, ask the main agent to
+pass each role's instructions to a bounded delegate. If subagents are unavailable,
+resolve client setup using the official documentation linked from the README
+before continuing with the multi-agent exercise.
 
-Say: “We have measurements from liver and skin. Before explaining the
-pattern, let's visualize it. I'm asking the main agent to run the analysis;
-it will give the actual output to the notebook agent for recording.”
+## 2. Inspect synthetic observations
 
-Enter:
-> Run python3 ToyModel1_recover_underlying_mrates.py --stage observe and show
-> figures/observed_rates.png. Compare our observed tissue rates with the model
-> predictions. Explain the sampling distributions without assuming a cause.
-> Have lab_notebook record only the command, essential parameters, results,
-> and artifact paths. Keep the entry concise.
+Paste:
 
-Show: the figure. Orange diamonds are observations in our toy world; blue boxes
-are 500 simulated experiments per tissue. Equal callable opportunities let us
-compare rates rather than confusing mutation burden with available exposure.
-Here callable opportunities are measurement denominators, distinct from
-mutagenic environmental exposure.
+> Run python ToyModel1_recover_underlying_mrates.py --stage observe with .venv
+> and show figures/observed_rates.png. Compare the observed tissue rates with
+> the model predictions. Explain the sampling distributions without assuming a
+> cause. Have lab_notebook record only the actual command, essential parameters,
+> results, and artifact paths. Keep the entry concise.
 
-## 3. Propose an environmental explanation
+Check: inspect the PNG and new notebook entry. Orange diamonds are synthetic
+observations, blue boxes are 500 simulated experiments per tissue. Each experiment
+uses 100 bins of 1,000 callable opportunities. Callable opportunities are the
+measurement denominator; they are distinct from environmental mutagen exposure.
+The central 95% of simulations describes variability across experiments, not
+uncertainty in the simulated mean. Both datasets use the same assumed mechanism,
+with separate random seeds.
 
-Say: “Skin has a higher mutation rate. Is its biology intrinsically different,
-or is its environment more mutagenic? My hypothesis is that environment drives
-the difference. I want the hypothesis written down before we test it.”
+Ask yourself: does a tissue difference alone distinguish an intrinsic biological
+difference from an environmental explanation?
 
-Enter:
-> My hypothesis is that greater environmental exposure, motivated by sunlight/UV, explains the skin's higher
-> mutation rate. Have lab_notebook record that hypothesis and a short test plan
-> before running anything. Inspect the exposure mechanism and propose an
-> intervention that equalizes exposure while holding intrinsic biology and
-> callable opportunities fixed. State the prediction; do not run the test yet.
+## 3. Record a hypothesis before testing
 
-Show: the notebook's hypothesis and prediction. Explain: “The main agent is
-helping design the test; the notebook agent preserves what we predicted before
-seeing its outcome. It receives our reasoning, rather than guessing from code.”
+Paste, or substitute your own hypothesis:
 
-## 4. Perform the intervention in the model
+> My hypothesis is that greater environmental mutagen exposure, motivated by
+> sunlight/UV, explains the higher skin mutation rate. Inspect the mechanism
+> and propose an intervention that equalizes exposure while holding intrinsic
+> biology and callable opportunities fixed. State the prediction and have
+> lab_notebook record the hypothesis and a short test plan before running
+> anything. Do not run the test yet.
 
-Say: “We cannot observe these tissues under equal exposure in our dataset.
-We can ask our model a counterfactual question: what would happen if exposure
-were equal? This panel must contain predictions only.”
+Check: read the hypothesis and prediction in `lab_notebook.txt` before continuing.
+The main agent should explain which assumptions the script imposes. This is an
+exercise in testing an assumed mechanism inside a synthetic world; the notebook
+must distinguish your prediction from an observed result.
 
-Enter:
-> Run python3 ToyModel1_recover_underlying_mrates.py --stage test and show
-> figures/exposure_test.png. Compare the mean skin-minus-liver rate difference
-> across the original and equalized environments over 500 simulations. Run
-> python3 -m unittest discover -s tests -v. Explain whether the prediction holds
-> within our model. Have lab_notebook append the result, validation, command,
-> and artifact paths to the planned test without repeating the whole history.
+## 4. Test the intervention
 
-Show: the two panels. Discuss the actual values returned, not memorized results.
-If the gap shrinks as predicted, say: “Within this model, changing environment
-is sufficient to remove the tissue difference. Our conclusion depends on the
-model's assumed exposure mechanism; we have not established real-world causality.”
+Paste:
 
-## 5. Inspect the research record
+> Run python ToyModel1_recover_underlying_mrates.py --stage test with .venv and
+> show figures/exposure_test.png. Compare the mean skin-minus-liver difference
+> in the original and equalized environments across 500 simulations. Run
+> python -m unittest discover -s tests -v in the same environment. Explain
+> whether our prediction holds within this model and what remains unproven.
+> Have lab_notebook append actual results, validation, commands, and artifact
+> paths to the planned experiment without repeating the whole history.
 
-Say: “The experiment is only useful if someone can reproduce it. Let's inspect
-what the specialist recorded, rather than write a second summary ourselves.”
+Check: use the values actually returned by your run. The equalized-exposure panel
+contains simulations only; there are no observed intervention measurements.
+Software tests check the implementation, not biological validity. Ask the main
+agent to explain why agreement between synthetic measurements and simulations
+cannot independently validate the mechanism that generated both.
 
-Enter:
+## 5. Audit the handoff and preserve an open question
+
+Paste:
+
 > Show the concise hypothesis, test, and result entries lab_notebook just wrote.
-> Confirm that the reproduction commands and figure/data paths are present.
-> If something is missing, delegate a small correction; do not add a duplicate
+> Check them against the actual commands and output. Confirm reproduction
+> commands and artifact paths are present, and predictions are distinguishable
+> from results. Delegate a small correction if needed; do not add a duplicate
 > summary or rerun the experiment.
 
-Show: `lab_notebook.txt`, followed by a result JSON if detailed parameters are
-needed. Explain: “The notebook holds the science; the output files hold the
-full numerical detail. Our main conversation stays focused on interpretation.”
+Check: compare the entry with `figures/exposure_test.json`. The notebook should
+preserve essential evidence without copying the whole JSON or chat transcript.
 
-To park a question during the discussion, enter:
+Choose a question you actually want to revisit, then replace the bracketed text:
+
 > Have lab_notebook add this to Follow up, with today's date: [my deferred
-> test, concern, or question]. Keep it open for our next session; do not run it now.
+> test, concern, or question]. Keep it open for the next session; do not run it now.
 
-## 6. Save a research checkpoint
+For example, you could ask how changing the number of callable opportunities
+would affect sampling variability. Add it only if you intend to revisit it.
 
-Say: “We now have a result worth preserving with its code and reasoning.
-The main agent waits for notebook edits to finish, then asks the Git steward
-to review the completed work. That keeps repository operations coordinated.”
+## 6. Review a checkpoint
 
-Enter:
-> Have git_steward review the completed code, notebook, figures, data, tests,
-> tracking, branch, and remote. Update GIT_CHECKPOINT.md with the exact files,
-> proposed commit message, and prompts for committing and pushing a research
-> branch to GitHub. Treat the existing setup commit as the baseline and include
-> only new demo changes and generated results. Do not commit or push yet.
+Git is optional. If you downloaded a ZIP, follow the initialization guidance in
+[README.md](README.md), or skip to step 8.
 
-Show: the steward's proposed scope and commit message. Explain: “The steward
-organizes the checkpoint and identifies what will be published. I review that
-concrete proposal before authorizing the Git operations.”
+Paste:
 
-## 7. Authorize the Git process when ready
+> Wait for notebook edits to finish. Have git_steward review the current code,
+> notebook, figures, data, validation evidence, branch, and remotes. Update
+> GIT_CHECKPOINT.md with an explicit proposed file list and commit message for
+> my current work. Distinguish existing baseline files from new changes and
+> preserve unrelated edits. Do not commit or push yet.
 
-These prompts perform real operations, even during a rehearsal. Skip them if
-you are demonstrating the proposal without actually committing or publishing.
+Check: inspect the proposed scope and diff yourself. The steward should identify
+which files actually changed, rather than assume that every listed output is new.
+The notebook agent finishes before the steward prepares repository mutations.
+See [GIT_CHECKPOINT.md](GIT_CHECKPOINT.md) for optional commit and publication prompts.
+A local commit is sufficient to complete this exercise; publishing is optional.
 
-Say: “I'm now authorizing the steward to save the reviewed local checkpoint.”
+## 7. Optional: save and publish your work
 
-Enter:
-> Have git_steward create research/exposure-demo, stage only the reviewed
-> checkpoint scope, inspect the staged diff, and commit it. Report the hash
-> and status. Do not push yet. Preserve unrelated work and inspect any existing
-> branch before proceeding.
+Follow the checkpoint guide one prompt at a time. Use your own fork or repository
+if you publish. Review the destination and file list before authorizing a push.
+Do not reuse publication authorization from the repository's historical records.
 
-Say: “The commit exists locally. I'll separately authorize publication.”
+Check: a commit, a push, and a pull request are separate operations. Ask for
+verified evidence of each operation you actually requested.
 
-Enter:
-> Have git_steward verify origin is the intended GitHub repository, push
-> research/exposure-demo, set its upstream, and verify the remote commit.
-> Report the GitHub branch link. Do not force-push. After successful publication,
-> have lab_notebook record only the submission command, commit hash, and URL.
+## 8. Resume and explore independently
 
-Optional:
-> Have git_steward open a draft PR describing the question, intervention,
-> results, figure, limitations, and reproduction commands. Report its URL.
+Start a new conversation in this workspace and paste:
 
-Show: verified Git output or GitHub page. Describe a commit, push, or PR as
-completed only after the steward has verified it.
+> Read AGENTS.md and the latest notebook entries. Summarize the current research
+> state and unresolved Follow up items. Have git_steward inspect the repository.
+> Do not run experiments yet. Help me select one next question and state a
+> prediction before delegating its notebook record.
+
+You have completed the core exercise when you can locate a prediction written
+before its test, reproduce a run from its record, explain the limits of the
+synthetic evidence, and identify which work each agent performed.
+
+For further practice, choose one change: vary sampling effort, compare random
+seeds, or introduce a tissue-specific baseline to challenge the current model.
+Discuss the scientific question first, record the hypothesis and plan, then
+change and test the code. Keep each experiment's artifacts distinguishable and
+ask the steward to propose a checkpoint when the notebook is complete.
