@@ -12,7 +12,7 @@ the workspace is closed.
 ## 1. Get oriented
 
 > Read AGENTS.md and the notebook. What are we studying? Don't run anything
-> or reveal earlier results yet. Use .venv for Python.
+> yet. Use .venv for Python.
 
 Look for a short explanation of the model and any open questions. The agent
 should also arrange a Git review and disclose if it cannot use the project

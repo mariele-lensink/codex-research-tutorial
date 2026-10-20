@@ -103,10 +103,9 @@ parameters are visible in the code and JSON for teaching transparency, but are
 never passed to the fitting functions. Held-out samples should not guide model
 tuning; use a new evaluation set if you start tuning after seeing their scores.
 
-The existing [lab_notebook.txt](lab_notebook.txt) preserves earlier experiments,
-including a superseded equalization demo. Those results do not describe this
-revised exercise. Old `observed_rates*` and `exposure_test*` artifacts, if present,
-belong to that earlier model. New runs use distinct `inference_*` filenames.
+The [lab_notebook.txt](lab_notebook.txt) starts empty so your agents can record
+your own hypotheses, experiments, and follow-up questions. Generate the figures
+and data as you work through the tutorial; completed outputs are not bundled.
 Fixed seeds reproduce a run; rerunning overwrites its corresponding files.
 
 ## Files and outputs
