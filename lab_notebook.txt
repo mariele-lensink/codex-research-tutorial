@@ -5,24 +5,24 @@ rerun the recorded commands to regenerate them. Historical results are retained.
 
 Observation
 Command: python3 ToyModel1_recover_underlying_mrates.py --stage observe
-Result: fake observed rates liver 0.002, colon 0.00505 per opportunity.
-These synthetic observations show an approximately 2.5-fold colon excess.
+Result: fake observed rates liver 0.002, skin 0.00505 per opportunity.
+These synthetic observations show an approximately 2.5-fold skin excess.
 Paths: figures/observed_rates.{png,csv,json}
        figures/observed_rates_observations.csv
 
 Hypothesis
-Greater mutagenic exposure causes the higher colon mutation rate.
-Prediction: equalizing exposure removes the average colon-minus-liver rate gap.
+Greater mutagenic exposure causes the higher skin mutation rate.
+Prediction: equalizing exposure removes the average skin-minus-liver rate gap.
 
 Test
 Rate = baseline 0.002 + exposure effect 0.003 * exposure.
-Natural exposure: liver 0, colon 1; equalized exposure: both 0.
+Natural exposure: liver 0, skin 1; equalized exposure: both 0.
 500 repeats/scenario; 100 bins/tissue; 1000 callable opportunities/bin.
 Simulation seed 42 (four child streams); fake-observation seed 2026, natural only.
 Command: python3 ToyModel1_recover_underlying_mrates.py --stage test
-Result: natural simulated mean rates liver 0.0020047, colon 0.00499844;
+Result: natural simulated mean rates liver 0.0020047, skin 0.00499844;
         mean gap 0.00299374; central 95% gap interval [0.00250475, 0.003541].
-        Equalized means liver 0.00199774, colon 0.00200368;
+        Equalized means liver 0.00199774, skin 0.00200368;
         mean gap 0.00000594; interval [-0.00036525, 0.00038525].
 Intervals describe variability across simulations, not confidence intervals of means.
 Conclusion: the gap nearly disappears under equalized simulated exposure.
@@ -39,3 +39,10 @@ Submission: not submitted. Planned checkpoint/submission prompts: GIT_CHECKPOINT
 
 Follow up
 None recorded.
+
+2026-10-20 (Europe/London)
+Model revision: replaced colon with skin; higher environmental mutagen exposure
+motivated by sunlight/UV; rates remain illustrative assumptions.
+Validation: python3 -m unittest discover -s tests -v — 3 passed (0.031s).
+Prior synthetic results retain the same RNG mathematics under the new labels;
+no new simulation run or empirical skin evidence is claimed.

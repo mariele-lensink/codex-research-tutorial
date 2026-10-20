@@ -17,8 +17,8 @@ import numpy as np
 
 BASELINE_RATE = 0.002
 EXPOSURE_EFFECT = 0.003
-SCENARIOS = {"Different environments": {"Liver": 0, "Colon": 1},
-             "Equalized exposure": {"Liver": 0, "Colon": 0}}
+SCENARIOS = {"Different environments": {"Liver": 0, "Skin": 1},
+             "Equalized exposure": {"Liver": 0, "Skin": 0}}
 
 
 def mutation_rate(exposure):
@@ -44,10 +44,10 @@ def simulate(seed=42, repeats=500, bins=100, opportunities=1000):
 def summarize(results):
     summary = {}
     for scenario, tissues in results.items():
-        gap = tissues["Colon"] - tissues["Liver"]
+        gap = tissues["Skin"] - tissues["Liver"]
         summary[scenario] = {
             "mean_rates": {t: float(x.mean()) for t, x in tissues.items()},
-            "mean_colon_minus_liver": float(gap.mean()),
+            "mean_skin_minus_liver": float(gap.mean()),
             "gap_simulation_interval_95": np.quantile(gap, [0.025, 0.975]).tolist(),
         }
     return summary

@@ -4,7 +4,8 @@ Open this folder as the project workspace. Follow **DEMO_SCRIPT.md** for the
 spoken narrative and copyable main-chat prompts, including both agent handoffs.
 
 The toy world gives both tissues the same intrinsic mutation rate (0.002 per
-callable opportunity). Colon's original environment adds an exposure effect
+callable opportunity). Skin's original environment represents greater mutagenic exposure (motivated
+by sunlight/UV) and adds an illustrative exposure effect
 of 0.003. Equalizing exposure removes that imposed difference in expectation.
 We compare 500 synthetic experiments per scenario, each with 100 bins and
 1000 callable opportunities per bin; seed 42 initializes four child RNG streams.
@@ -29,7 +30,7 @@ synthetic draws from the same assumed mechanism, not independent biological
 validation. Fake observations are saved separately in `*_observations.csv`
 and in each JSON summary; the original CSV files contain model simulations.
 Each has a CSV of replicate rate estimates and a JSON summary containing
-parameters, package versions, mean rates, and colon-minus-liver differences.
+parameters, package versions, mean rates, and skin-minus-liver differences.
 Figure whiskers and JSON intervals describe central 95% simulation variability,
 not confidence intervals for the mean. Outputs are absent from the setup
 checkpoint; the commands above regenerate them for review and a results commit.

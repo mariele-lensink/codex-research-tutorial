@@ -11,8 +11,8 @@ class ExposureExperimentTests(unittest.TestCase):
     def test_repeated_experiments_recover_imposed_effect(self):
         results = simulate()
         summary = summarize(results)
-        natural = summary['Different environments']['mean_colon_minus_liver']
-        control = summary['Equalized exposure']['mean_colon_minus_liver']
+        natural = summary['Different environments']['mean_skin_minus_liver']
+        control = summary['Equalized exposure']['mean_skin_minus_liver']
         # Conservative Monte Carlo tolerances, far smaller than the .003 effect.
         self.assertAlmostEqual(natural, 0.003, delta=0.0001)
         self.assertAlmostEqual(control, 0, delta=0.0001)

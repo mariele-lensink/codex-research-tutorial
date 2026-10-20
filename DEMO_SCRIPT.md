@@ -35,7 +35,7 @@ unknown biological cause. Existing preparation runs remain labelled as such.
 
 ## 1. Meet the research team
 
-Say: “Our project asks why colon accumulates more mutations than liver.
+Say: “Our project asks why skin accumulates more mutations than liver.
 I'll work with the main agent on the science. A notebook agent will maintain
 our experimental record, and a Git steward will organize research checkpoints.
 I give instructions here; the main agent sends each specialist the relevant
@@ -53,7 +53,7 @@ Explain that these agents act when invoked, not as continuous background watcher
 
 ## 2. Inspect our observations
 
-Say: “We have measurements from liver and colon. Before explaining the
+Say: “We have measurements from liver and skin. Before explaining the
 pattern, let's visualize it. I'm asking the main agent to run the analysis;
 it will give the actual output to the notebook agent for recording.”
 
@@ -72,12 +72,12 @@ mutagenic environmental exposure.
 
 ## 3. Propose an environmental explanation
 
-Say: “Colon has a higher mutation rate. Is its biology intrinsically different,
+Say: “Skin has a higher mutation rate. Is its biology intrinsically different,
 or is its environment more mutagenic? My hypothesis is that environment drives
 the difference. I want the hypothesis written down before we test it.”
 
 Enter:
-> My hypothesis is that greater mutagenic exposure explains the colon's higher
+> My hypothesis is that greater environmental exposure, motivated by sunlight/UV, explains the skin's higher
 > mutation rate. Have lab_notebook record that hypothesis and a short test plan
 > before running anything. Inspect the exposure mechanism and propose an
 > intervention that equalizes exposure while holding intrinsic biology and
@@ -95,7 +95,7 @@ were equal? This panel must contain predictions only.”
 
 Enter:
 > Run python3 ToyModel1_recover_underlying_mrates.py --stage test and show
-> figures/exposure_test.png. Compare the mean colon-minus-liver rate difference
+> figures/exposure_test.png. Compare the mean skin-minus-liver rate difference
 > across the original and equalized environments over 500 simulations. Run
 > python3 -m unittest discover -s tests -v. Explain whether the prediction holds
 > within our model. Have lab_notebook append the result, validation, command,
